@@ -52,8 +52,13 @@ Data preparation for burst kinetics inference.
 Figures: 4C.  
 
 **XCR2_Regulon_Allele.ipynb**.  
+Figures: 6E.  
 
-**XCR2_AJ_BT_XCU_XO.ipynb**
+**XCR2_AJ_BT_XCU_XO.ipynb**.  
+Figures: 4D,E,F
 
-**XCR2_XX_XY_ESC_ATAC_allele-Setting up.ipynb**
-**XCR2_XX_XY_ESC_ATAC_analysis2.ipynb**
+**XCR2_XX_XY_ESC_ATAC_allele-Setting up.ipynb**.  
+Data preparation.  
+
+**XCR2_XX_XY_ESC_ATAC_analysis2.ipynb**.  
+Figures: S2I
