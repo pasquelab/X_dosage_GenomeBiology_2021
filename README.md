@@ -1,4 +1,4 @@
-# Enhanced Chromatin Accessibility Contributes to X-chromosome Dosage Compensation in Mammals
+# Enhanced Chromatin Accessibility Contributes to  X-chromosome Dosage Compensation in Mammals
 
 Scripts related to our manuscript entitled "Enhanced Chromatin Accessibility Contributes to X-chromosome Dosage Compensation in Mammals" published in [Genome Biology]().
 
