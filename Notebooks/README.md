@@ -104,3 +104,6 @@ Figure S5B
 
 **XCR2_Xchr_Homer_heatmap_reprogramming.ipynb**
 Figure 5E
+
+**XCR2_Homer_heatmap_enhancers_promoters.ipynb**
+Figure S5G
