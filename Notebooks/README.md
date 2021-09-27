@@ -92,3 +92,10 @@ Figures 1F, S2F
 
 **XCR2_ATAC_allele.ipynb**<br>
 Figure 5A
+
+**XCR2_ATAC_allelicXchr_heatmap_cluster.ipynb**<br>
+Figure S5C
+
+**XCR2_ATAC_dynamics_clusters.ipynb**<br>
+Figure 5C
+
