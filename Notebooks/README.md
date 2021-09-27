@@ -89,3 +89,6 @@ Figure S1C
 
 **XCR2_Cast_accessibility_allchr.ipynb**<br>
 Figures 1F, S2F
+
+**XCR2_ATAC_allele.ipynb**<br>
+Figure 5A
