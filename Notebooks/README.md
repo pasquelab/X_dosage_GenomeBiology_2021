@@ -74,3 +74,6 @@ Data preparation.
 
 **XCR2_XX_XY_ESC_ATAC_analysis2.ipynb**.  
 Figures: S2I
+
+**XCR2_hyperaccessibility_CM1_CM2_CM3_CM7.ipynb**<br>
+Figures: 2E, S2J
