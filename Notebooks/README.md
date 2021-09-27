@@ -86,3 +86,6 @@ Figure S1B
 
 **XCR2_Mus_allchr_accessibility_ratio.ipynb**<br>
 Figure S1C
+
+**XCR2_Cast_accessibility_allchr.ipynb**<br>
+Figures 1F, S2F
