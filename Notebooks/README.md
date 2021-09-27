@@ -81,3 +81,8 @@ Figures: 2E, S2J
 **XCR2_hyperaccessibility_reprogramming.ipynb**<br>
 Figures: 1C, 1D, 2C, S2H
 
+**XCR2_Cast_allchr_accessibility_ratio.ipynb**<br>
+Figure S1B
+
+**XCR2_Mus_allchr_accessibility_ratio.ipynb**<br>
+Figure S1C
