@@ -100,4 +100,7 @@ Figure S5C
 Figure 5C
 
 **XCR2_ATAC_NonAllelic_heatmapXchr.ipynb**<br>
-Figure S5C
+Figure S5B
+
+**XCR2_Xchr_Homer_heatmap_reprogramming.ipynb**
+Figure 5E
