@@ -51,6 +51,18 @@ Data preparation for burst kinetics inference.
 **XCR2_AJ_0065.12b - Burst_inference.ipynb**  
 Figures: 4C.  
 
+**XCR2_burst_freq_XOData preparation.ipynb**
+Data preparation for burst kinetics inference for XO/XX iPSC lines. 
+
+**XCR2_burst_freq_XOData preparation2.ipynb**
+Data preparation for burst kinetics inference for XO/XX iPSC lines. 
+
+**XCR2_burst_freq_inference_Figure S4D.ipynb**
+Figure S4D.
+
+**XCR2_burst_inference_XO.ipynb**
+Figure S4G.
+
 **XCR2_Regulon_Allele.ipynb**.  
 Figures: 6E.  
 
