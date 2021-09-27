@@ -99,3 +99,5 @@ Figure S5C
 **XCR2_ATAC_dynamics_clusters.ipynb**<br>
 Figure 5C
 
+**XCR2_ATAC_NonAllelic_heatmapXchr.ipynb**<br>
+Figure S5C
