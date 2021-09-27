@@ -77,3 +77,7 @@ Figures: S2I
 
 **XCR2_hyperaccessibility_CM1_CM2_CM3_CM7.ipynb**<br>
 Figures: 2E, S2J
+
+**XCR2_hyperaccessibility_reprogramming.ipynb**<br>
+Figures: 1C, 1D, 2C, S2H
+
