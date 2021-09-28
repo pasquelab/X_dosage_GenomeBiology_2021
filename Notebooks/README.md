@@ -107,3 +107,6 @@ Figure 5E
 
 **XCR2_Homer_heatmap_enhancers_promoters.ipynb**<br>
 Figure S5G
+
+**XCR2_Distance_ATACclusters_escapeeregions.ipynb**<br>
+Figure S5D
