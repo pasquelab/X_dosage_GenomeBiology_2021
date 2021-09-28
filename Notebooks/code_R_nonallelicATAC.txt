@@ -1,0 +1,257 @@
+#correlation heatmap can be generated which gives an initial
+#clustering of the samples using the cross-correlations of each row of the binding matrix:
+plot(ATAC_nonA_DBA)
+
+```
+#### Figure 1: Correlation heatmap, using occupancy (peak caller score) data.
+#### It seems that samples cluster as expected. Day 0 very far away from  everything else, and then Day 8 and 9, later to Day 10, and 12 most #### similar with iPSCs. Although Day 12 is still relatively dissimilar to iPSCs.
+
+#### The next step is to calculate a binding matrix with scores based on read counts for every
+#### sample (affinity scores), rather than confidence scores for only those peaks called in a specific
+#### sample (occupancy scores).
+
+```{r}
+ATAC_nonA_DBA_rawCounts <- dba.count(ATAC_nonA_DBA, score = DBA_SCORE_READS) # score = raw read count (without normalization)
+
+plot(ATAC_nonA_DBA_rawCounts)
+```
+#### Figure 2: Correlation heatmap, using affinity (read count) data
+
+```{r}
+# Retrieve the peakset with raw read counts
+
+ATAC_matrix_raw <- dba.peakset(ATAC_nonA_DBA_rawCounts, bRetrieve = TRUE, DataType = DBA_DATA_FRAME)
+head(ATAC_matrix_raw)
+```
+#### This is a GRanges object with 223596 ranges and 6 metadata columns
+
+#### In the next step we aim on creating a DESeq object with counts
+```{r}
+# Create clean matrix with GRanges peakID
+
+# ATAC_matrix_raw <- as.data.frame(peaks.init.ranges@elementMetadata) #Rownames become peak IDs #This is not needed if above specified: DataType = DBA_DATA_FRAME)
+
+ATAC_matrix_raw_short <- ATAC_matrix_raw[,4:9]
+
+# Create a column data with annotation
+
+time <- c("Day0","Day8","Day9","Day10","Day12","iPSCs")
+
+colData <- data.frame(time,row.names=colnames(ATAC_matrix_raw_short))
+colData$time <- factor(c("Day0","Day8","Day9","Day10","Day12","iPSCs"), levels = c("Day0","Day8","Day9","Day10","Day12","iPSCs"))
+
+
+```
+
+```{r}
+
+dds_unbiased <- DESeqDataSetFromMatrix(countData = ATAC_matrix_raw_short, colData = colData, design = ~ 1)
+
+dds_unbiased <- dds_unbiased[ rowSums(counts(dds_unbiased)>1) >=2, ] ## at least 2 libraries have >1 counts
+
+rld <- rlog(dds_unbiased, blind = TRUE)
+```
+
+```{r}
+plotPCA(rld, intgroup = c("time"), ntop=500)
+```
+PCA based on top 500 most variable regions
+
+```{r}
+PCA <-plotPCA(rld, intgroup = c("time"), ntop=223596)
+
+pdf("ATAC_PCA_allsites.pdf",width=4,height=4,useDingbats = FALSE)
+plot(PCA)
+dev.off()
+```
+PCA based on all regions
+
+```{r}
+# Normalized counts by the size-factor
+dds_unbiased_sf <- estimateSizeFactors(dds_unbiased)  #Calculating the size factors
+sizeFactors(dds_unbiased_sf)                          #Looking up the size factors (We can see that iPSCs will have to be scaled up a lot)
+counts_norm <- counts(dds_unbiased_sf, normalized=TRUE)       #Normalizing the raw counts with respect to the size factor
+counts_norm_log <- log2(1+counts_norm)                    #Add 1 for the zero values
+
+counts_norm_log <- as.data.frame(counts_norm_log)
+#counts_norm_log <- add_rownames(counts_norm_log, "id")            #Add "Symbol" as the row header
+#counts_norm_log <- as.data.frame(counts_norm_log)           
+
+```
+
+```{r}
+# Incorporate the information about chromosomes
+
+counts_norm_log$chr <- ATAC_matrix_raw$CHR 
+counts_norm_log <- counts_norm_log[c(7,1:6)] # Change the order of columns so that chr is in the first place
+```
+
+```{r}
+# load in the X:A ratio function (Xdos) function
+
+Xdos <- function (x, species = "mouse") {
+  if (colnames(x)[1] != "chr") {
+    print("Incorrect input structure. Make sure first column is 'chr' and contains annotated chromosomes; chr1, chr2 etc")
+  } else {
+  
+chrMouse <- c("chr1","chr2","chr3","chr4","chr5","chr6","chr7","chr8","chr9",
+              "chr10","chr11","chr12","chr13","chr14","chr15","chr16","chr17",
+              "chr18","chr19","chrX","chrY","chrM")
+chrHuman <- c("chr1","chr2","chr3","chr4","chr5","chr6","chr7","chr8","chr9",
+              "chr10","chr11","chr12","chr13","chr14","chr15","chr16","chr17",
+              "chr18","chr19","chr20","chr21","chr22","chrX","chrY","chrM")
+
+autosomes <- subset(x, !(x$chr %in% c("chrX", "chrY", "chrM")))
+
+samples <- 2:length(colnames(x))
+
+# For X, Y to auto
+
+chrX <- colMeans(subset(x, x$chr == "chrX")[samples]) /
+  colMeans(autosomes[samples])
+
+chrY <- colMeans(subset(x, x$chr == "chrY")[samples]) /
+                    colMeans(autosomes[samples])
+
+ratios_XY <- as.data.frame(rbind(chrX, chrY))
+ratios_XY$chr <- rownames(ratios_XY)
+  
+# For all autosomes
+
+datalist_A <- list()
+
+if (species == "mouse") {
+  chrN <- chrMouse 
+} else if (species == "human") {
+  chrN <- chrHuman
+} else {print("Select correct organism: 'mouse' or 'human'")}
+
+for (i in 1:length(unique(autosomes$chr))) {
+  
+  y <- colMeans(subset(autosomes, autosomes$chr == chrN[i])[samples]) /
+    colMeans(subset(autosomes, autosomes$chr != chrN[i])[samples])
+  datalist_A[[i]] <- y
+}
+
+ratios_auto <- as.data.frame(do.call(rbind, datalist_A))
+ratios_auto$chr <- unique(autosomes$chr)
+
+ratios_all <- rbind(ratios_XY,ratios_auto)
+
+return(ratios_all)
+}}
+
+
+
+```{r}
+ratios <- Xdos(counts_norm_log)
+```
+
+```{r}
+# Plot X:A ratio and 2 and 8 to autosomes as control
+ratios_long <- gather(ratios[,1:6], factor_key = TRUE)
+ratios_long$chr <- rep(ratios$chr, 6)
+ratios_long <- subset(ratios_long, ratios_long$chr != "chrY")
+
+a <- ggplot(ratios_long, aes(key, value, group=chr)) +
+  geom_line(aes(color=chr), size=0.5)+
+  geom_point(aes(color=chr), size=1.8)+
+  theme_classic()
+
+a
+
+pdf("X_to_autosomes_all_chr.pdf", useDingbats = FALSE, width =4.2, height = 3.9)
+plot(a)
+dev.off()
+```
+
+```{r}
+# Take all the chrX regions which are open in iPSCs (> 10 reads)
+
+
+ATAC_matrix_raw
+chrX_iPSCs_open <- ATAC_matrix_raw %>%
+  filter(CHR == "chrX" & iPSCs >= 10)
+
+write_tsv(chrX_iPSCs_open, "chrX_iPSCs_open.csv")
+
+```
+
+```{r}
+# Plot the average accessibility per chromosome (investigate better why X:autosome ratio goes over 1)
+
+# Modify the function to return the average and not the ratio (remove the divisions)
+
+Average_perChr <- function (x, species = "mouse") {
+  if (colnames(x)[1] != "chr") {
+    print("Incorrect input structure. Make sure first column is 'chr' and contains annotated chromosomes; chr1, chr2 etc")
+  } else {
+  
+chrMouse <- c("chr1","chr2","chr3","chr4","chr5","chr6","chr7","chr8","chr9",
+              "chr10","chr11","chr12","chr13","chr14","chr15","chr16","chr17",
+              "chr18","chr19","chrX","chrY","chrM")
+chrHuman <- c("chr1","chr2","chr3","chr4","chr5","chr6","chr7","chr8","chr9",
+              "chr10","chr11","chr12","chr13","chr14","chr15","chr16","chr17",
+              "chr18","chr19","chr20","chr21","chr22","chrX","chrY","chrM")
+
+autosomes <- subset(x, !(x$chr %in% c("chrX", "chrY", "chrM")))
+
+samples <- 2:length(colnames(x))
+
+# For X, Y to auto
+
+chrX <- colMeans(subset(x, x$chr == "chrX")[samples]) 
+
+chrY <- colMeans(subset(x, x$chr == "chrY")[samples]) 
+
+ratios_XY <- as.data.frame(rbind(chrX, chrY))
+ratios_XY$chr <- rownames(ratios_XY)
+  
+# For all autosomes
+
+datalist_A <- list()
+
+if (species == "mouse") {
+  chrN <- chrMouse 
+} else if (species == "human") {
+  chrN <- chrHuman
+} else {print("Select correct organism: 'mouse' or 'human'")}
+
+for (i in 1:length(unique(autosomes$chr))) {
+  
+  y <- colMeans(subset(autosomes, autosomes$chr == chrN[i])[samples]) 
+  datalist_A[[i]] <- y
+}
+
+ratios_auto <- as.data.frame(do.call(rbind, datalist_A))
+ratios_auto$chr <- unique(autosomes$chr)
+
+ratios_all <- rbind(ratios_XY,ratios_auto)
+
+return(ratios_all)
+}}
+
+
+Avg_accessibility_perChr <- Average_perChr(counts_norm_log)
+
+# Plot X:A ratio and 2 and 8 to autosomes as control
+Avg_accessibility_perChr_long <- gather(Avg_accessibility_perChr[,1:6], factor_key = TRUE)
+Avg_accessibility_perChr_long$chr <- rep(Avg_accessibility_perChr$chr, 6)
+Avg_accessibility_perChr_long <- subset(Avg_accessibility_perChr_long, Avg_accessibility_perChr_long$chr != "chrY")
+
+c <- ggplot(Avg_accessibility_perChr_long, aes(key, value, group=chr)) +
+  geom_line(aes(color=chr), size=0.5)+
+  geom_point(aes(color=chr), size=1.8)+
+  theme_classic()
+
+Avg_accessibility_allChr <- bind_rows(colMeans(Avg_accessibility_perChr[3:21,1:6]),colMeans(Avg_accessibility_perChr[1,1:6]))
+Avg_accessibility_allChr$chr <- c("autosomes","chrX")
+
+Avg_accessibility_allChr_long <- gather(Avg_accessibility_allChr, timepoint, expr, -chr, factor_key = TRUE)
+
+ggplot(Avg_accessibility_allChr_long, aes(timepoint, expr, group=chr)) +
+  geom_line(aes(color=chr), size=0.5)+
+  geom_point(aes(color=chr), size=1.8)+
+  theme_classic()
+
+```
