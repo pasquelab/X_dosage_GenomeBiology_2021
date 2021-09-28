@@ -110,3 +110,11 @@ Figure S5G
 
 **XCR2_Distance_ATACclusters_escapeeregions.ipynb**<br>
 Figure S5D
+
+**XCR2_ATACclusters_Esrrb_sum.ipynb
+XCR2_ATACclusters_Klf4_sum.ipynb
+XCR2_ATACclusters_Nanog_sum.ipynb
+XCR2_ATACclusters_Prdm14_sum.ipynb
+XCR2_ATACclusters_Sox2_sum.ipynb
+XCR2_ATACclusters_cMyc_sum.ipynb
+XCR2_ATACclusters_p300_sum.ipynb** 
