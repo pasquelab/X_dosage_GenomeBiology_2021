@@ -123,3 +123,6 @@ Figure S5H
 
 **code_R_nonallelicATAC.txt**<br>
 Figures S2A, S5A
+
+**XCR2_timepoints_motifs_regulons_relationship.ipynb**<br>
+Figure S6G
