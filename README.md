@@ -16,7 +16,7 @@ Standalone SCope apps for macOS and Linux can be downloaded from [here](https://
 
 ## Data availability
 
-The GEO SuperSeries with all data deposited that relates to the article can be found in GEO under the accession number [GSE153847](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE153846)
+The GEO SuperSeries with all data deposited that relates to the article can be found in GEO under the accession number [GSE153847](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE153847)
 
 The reprogramming smart-seq2 single-cell RNA-seq data have been deposited in GEO under the accession number [GSE153846](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE153846)<br>
 The iPSCs (XX/XO) smart-seq2 single-cell RNA-seq data have been deposited in GEO under the accession number [GSE184987](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE184987)<br>
