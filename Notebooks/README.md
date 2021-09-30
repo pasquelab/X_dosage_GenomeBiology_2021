@@ -1,4 +1,4 @@
-# All scripts used to generate data and figures for the article 
+# Scripts used to generate data and figures for the article 
 
 __Smart-seq2 single-cell RNA-seq non-allelic analysis and Gene Regulatory Network inference__:  
 
@@ -118,7 +118,7 @@ XCR2_ATACclusters_Prdm14_sum.ipynb<br>
 XCR2_ATACclusters_Sox2_sum.ipynb<br>
 XCR2_ATACclusters_cMyc_sum.ipynb<br>
 XCR2_ATACclusters_p300_sum.ipynb<br>
-XCR2ATACclusters_Oct4_sum.ipynb** 
+XCR2ATACclusters_Oct4_sum.ipynb** <br>
 Figure S5H
 
 **code_R_nonallelicATAC.txt**<br>
