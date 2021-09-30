@@ -18,10 +18,10 @@ Standalone SCope apps for macOS and Linux can be downloaded from [here](https://
 
 The GEO SuperSeries with all data deposited that relates to the article can be found in GEO under the accession number [GSE153847](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE153846)
 
-The smart-seq2 single-cell RNA-seq data have been deposited in GEO under the accession number [GSE153846](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE153846)  
-The smart-seq2 single-cell RNA-seq data have been deposited in GEO under the accession number[GSE184987](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE184987)
-The 10X single-cell RNA-seq data have been deposited in GEO under the accession number [GSE153845](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE153845)  
-The bulk ATAC-seq data have been deposited in GEO under the accession number [GSE153844](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE153844)
+The reprogramming smart-seq2 single-cell RNA-seq data have been deposited in GEO under the accession number [GSE153846](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE153846)<br>
+The iPSCs (XX/XO) smart-seq2 single-cell RNA-seq data have been deposited in GEO under the accession number[GSE184987](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE184987)<br>
+The 10X single-cell RNA-seq data have been deposited in GEO under the accession number [GSE153845](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE153845)<br>
+The bulk ATAC-seq data have been deposited in GEO under the accession number [GSE153844](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE153844)<br>
 
 
 ## Code availability 
